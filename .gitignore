@@ -1,0 +1,10 @@
+# test files 
+
+world
+world-backup
+
+# other misc files
+
+.DS_Store
+.vscode
+__pycache__
