@@ -1,3 +1,5 @@
+<img src="https://img.shields.io/badge/project%20status-in%20active%20development-brightgreen"></img>
+
 # Overview 
 
 When ran, this script will go back one directory and check if there is a directory called ```world-backup```.  
