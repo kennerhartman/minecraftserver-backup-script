@@ -1,7 +1,12 @@
-# test files 
+# minecraft test folders 
 
 world
 world-backup
+
+# secerts
+
+.env
+dbx-credentials.json
 
 # other misc files
 

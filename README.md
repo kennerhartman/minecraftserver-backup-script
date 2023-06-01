@@ -1,3 +1,4 @@
+<img src="https://img.shields.io/badge/Dropbox%20API-v11.36.1-blue.svg?style=for-the-badge&logo=Dropbox&style=plastic"></img>
 <img src="https://img.shields.io/badge/project%20status-in%20active%20development-brightgreen"></img>
 
 # Overview 
@@ -9,7 +10,7 @@ When ran, this script will go back one directory and check if there is a directo
 
 Note: this script *does not* copy every file of your Minecraft server, *only* your world files!
 
-It is currently an idea for this script to connect with your Google Drive (and possibly Dropbox) account so you can store a copy of your backup somewhere else besides your computer.
+It is currently an idea for this script to connect with your Google Drive account so you can store a copy of your backup somewhere else besides your computer.  If you want to use Dropbox, scroll down to [Dropbox](#dropbox) in this README file.
 
 # Insturctions on How to Use
 
@@ -19,25 +20,64 @@ To use this script, ensure that you have Python 3.10 (or later) installed.  Next
     <img src="images/server-files.png" width="500px">
 </div>
 
-Next, create a folder named ```'script'```, with it placed in the root directory of your Minecraft server. Next, copy ```main.py``` and ```LICENSE.md``` into that folder.  It is important that you copy ```main.py``` into that folder or the script will not work!  The ```LICENSE.md``` is simply in the ```script``` directory to comply with the terms found in the [license](LICENSE.md) of this project.  Next, open up a terminal, cd to the ```script``` directory, and run ```python main.py```.
+Next, copy the ```'script'``` directory of this project and place it in the root directory of your Minecraft server. Next, copy ```LICENSE.md``` file into that folder.  The ```LICENSE.md``` is simply in the ```script``` directory to comply with the terms found in the [license](LICENSE.md) of this project.  
+
+If you are wanting to copy your world files,
+
+- Open up a terminal, cd to the ```script``` directory, and run ```python main.py```.
+
+- Currently, this script cannot upload your files to Dropbox.  However, you can authenticate with the Dropbox API (see [Dropbox](#dropbox)).
+
+    - Note: the next commit to this GitHub repository will allow you to upload your files to Dropbox.
+
+# Dropbox
+
+- Currently, if you [register a Dropbox app](https://www.dropbox.com/developers/apps/create), you can connect to the Dropbox API (ensure you select "Full Dropbox Access" when registering your app).  Once you register your app, go to the [App Console](https://www.dropbox.com/developers/apps).  Once there, find your app, access it, and scroll down until you find "App key".  Copy that key.  In the ```dropbox``` folder, create a file named ```.env``` and add the following text: "APP_KEY=[paste the app key you copied here]".
+
+<div align="center">
+    <img src="images/env-variables.png" width="500px">
+</div>
+
+- Ensure you have the following Python Modules installed for Dropbox to work:
+
+    - pip install ```dropbox```
+    - pip install ```decouple```
+
+- In the ```script``` directory, you will have a second directory named ```dropbox```.  Within this directory, you should have two Python script files: ```dbx.py``` and ```dbx-auth.py```.  You do not need to run ```dbx-auth.py```.  If you run ```dbx.py```, you will be prompted to authenticate with the Dropbox API.  If you want to refresh your tokens, then run ```dbx-auth.py```.
 
 # Compatibility
 
 This script works for the following operating system(s):
 
-<img src="https://upload.wikimedia.org/wikipedia/commons/b/b6/Cropped-Windows10-icon.png" width=75px>
-&nbsp;&nbsp;
-<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Apple_logo_grey.svg/1280px-Apple_logo_grey.svg.png" width=60px>
-&nbsp;&nbsp;
-<img src="https://upload.wikimedia.org/wikipedia/commons/f/f1/Icons8_flat_linux.svg" height=85px>
+<span>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/b/b6/Cropped-Windows10-icon.png" width=75px>
+</span>
+<span>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Apple_logo_grey.svg/1280px-Apple_logo_grey.svg.png" width=60px>
+</span>
+<span>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/f/f1/Icons8_flat_linux.svg" height=85px>
+</span>
 
-# Modules Used 
+# API(s) and Modules Used 
+
+API:
+
+- [Dropbox API](https://www.dropbox.com/developers) ([Python SDK](https://www.dropbox.com/developers/documentation/python))
 
 Built-in Python Libraries:
 
 - ```shutil```: used to copy and remove specified directories
 - ```os```: used to find a specified directory
+- ```subprocess```: used to run the ```dbx-auth.py``` script if ```dbx.py``` is running
+- ```webbrowser```: used to open URLs in your browser
 - ```time```: suspend script execution
+
+Installed Modules:
+
+- [```dropbox```](https://pypi.org/project/dropbox/): connect to and use the Dropbox API
+- [```decouple```](https://pypi.org/project/decouple/): open .env files and read environment varibales
+
 
 # License
 
