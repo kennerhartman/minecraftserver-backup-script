@@ -1,5 +1,12 @@
-<img src="https://img.shields.io/badge/Dropbox%20API-v11.36.1-blue.svg?style=for-the-badge&logo=Dropbox&style=plastic"></img>
-<img src="https://img.shields.io/badge/project%20status-in%20active%20development-brightgreen"></img>
+<span>
+    <a href="https://github.com/dropbox/dropbox-sdk-python" target="_blank">
+        <img src="https://img.shields.io/badge/Dropbox%20API-v11.36.1-blue.svg?style=for-the-badge&logo=Dropbox&style=plastic"></img>
+    </a>
+</span>
+<span>
+    <img src="https://img.shields.io/badge/project%20status-in%20active%20development-brightgreen"></img>
+</span>
+
 
 # Overview 
 
@@ -64,7 +71,7 @@ This script works for the following operating system(s):
 
 API:
 
-- [Dropbox API](https://www.dropbox.com/developers) ([Python SDK](https://www.dropbox.com/developers/documentation/python))
+- [Dropbox API](https://www.dropbox.com/developers) ([Python SDK](https://www.dropbox.com/developers/documentation/python)) ([GitHub Source Code](https://github.com/dropbox/dropbox-sdk-python))
 
 Built-in Python Libraries:
 
