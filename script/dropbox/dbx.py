@@ -3,54 +3,39 @@
 # Licensed under the MIT license. See LICENSE.md file in the project root for details.
 #
 
-import dropbox
-import subprocess
-from decouple import config 
+# TODO no imports needed for this file?
 
-# my own JSON module that creates, reads, and writes to JSON files
-from dbxJSON import InteractJSON
+# my own module that interacts with the Dropbox API
+from dbx_classes import DropboxApp
 
-# because of security reasons, 'dbx-credentials.json' is in my '.gitignore'.  
-# if this JSON is not present, then one will be created with the needed data to authenticate with Dropbox
-data = {
-    "retrieved_token": False,
-    "generated_access_code": None,
-    "access_token": None,
-    "refresh_token": None
-}
+# authenticate using a function defined in a class in 'dbx_classes.py' which calls 'dbx-auth.py'
+DropboxApp.dbxAuthenticate()
 
-InteractJSON.createFile(data)
-settings = InteractJSON.readFile()
+# check if there is a 'world-backup' folder in Dropbox; returns True or False
+worldBackup = DropboxApp.checkForFolder("world-backup")
 
-# to make things more convenient, 'dbx.py' will automatically run 'dbx-auth.py'
-# to retrieve access and refresh tokens, as well as generating an access code 
-# and storing them in 'dbx-credentials.json'
-if (settings['retrieved_token'] == False):
-    subprocess.call(['python3', 'dbx-auth.py'])
-else:
-    print("You are already authenticated with the Dropbox API.  If you want to refresh any token, run 'dbx-auth.py'.\n")
+# create a world-backup folder IF it does not exist in Dropbox
+if (worldBackup == False):
+    # ask to create a 'world-backup' folder
+    askToCreate = input("\nDo you wish to create a backup folder [y/n]: ")
+    askToCreate.lower
+    print("\n")
 
-# ============= # ============= #
+    if askToCreate == "y" or askToCreate == "yes":
+        DropboxApp.createFolder("world-backup", True)
+    else:
+        print("If you want to create a folder, run \"python [or python3] dbx.py\"!\n")
+elif(worldBackup == True):
+    # ask to upload the  'world-backup' folder
+    askToUpload = input("\nDo you wish to backup your folder to Dropbox [y/n]: ")
+    askToUpload.lower
+    print("\n")
 
-# grab app key and secrets from '.env'
-APP_KEY = config("APP_KEY")
+    # upload the contents of 'world-backup' from the user's computer to dropbox in the "newly" created folder
+    if askToUpload == "y" or askToUpload == "yes":
+        DropboxApp.uploadFolder("world-backup", "world-backup")
+    else:
+        print("If you want to backup your folder, run \"python [or python3] dbx.py\"!\n")
 
-# read every key in dbx-credentials.json
-auth = InteractJSON.readFile()
 
-# initialize Dropbox API
-dbx = dropbox.Dropbox(
-    app_key=APP_KEY,
-    oauth2_refresh_token=auth['refresh_token']
-)
-
-# ============= # ============= #
-
-"""
-In another .py file, create a class that will have the following functions:
-
-- checking if a specifically named folder is present
-- handle uploading world-backup to Dropbox
-- other functions that may be needed...
-"""
 

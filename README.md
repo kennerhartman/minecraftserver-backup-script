@@ -28,7 +28,8 @@ If you are wanting to copy your world files,
 
 - Currently, this script cannot upload your files to Dropbox.  However, you can authenticate with the Dropbox API (see [Dropbox](#dropbox)).
 
-    - Note: the next commit to this GitHub repository will allow you to upload your files to Dropbox.
+    - Note: there is ***some*** functionality for uploading files to Dropbox.  However, there is a problem of uploading files in subdirectories, of the root directory, to Dropbox.  This current commit only resolves half of that problem.
+    - Note: the next commit to this GitHub repository will allow you to upload your files to Dropbox with full functionality.
 
 # Dropbox
 
@@ -43,7 +44,7 @@ If you are wanting to copy your world files,
     - pip install ```dropbox```
     - pip install ```decouple```
 
-- In the ```script``` directory, you will have a second directory named ```dropbox```.  Within this directory, you should have two Python script files: ```dbx.py``` and ```dbx-auth.py```.  You do not need to run ```dbx-auth.py```.  If you run ```dbx.py```, you will be prompted to authenticate with the Dropbox API.  If you want to refresh your tokens, then run ```dbx-auth.py```.
+- In the ```script``` directory, you will have a directory named ```dropbox```.  Within this directory, you should have two Python script files: ```dbx.py``` and ```dbx-auth.py```.  You do not need to run ```dbx-auth.py```.  If you run ```dbx.py```, you will be prompted to authenticate with the Dropbox API.  If you want to refresh your tokens, then run ```dbx-auth.py```.
 
 # Compatibility
 

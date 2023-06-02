@@ -9,7 +9,7 @@ from decouple import config
 import webbrowser
 
 # my own JSON module that creates, reads, and writes to JSON files
-from dbxJSON import InteractJSON
+from dbx_classes import InteractJSON
 
 APP_KEY = config("APP_KEY")
 
@@ -63,7 +63,7 @@ try:
 
     InteractJSON.writeToFile(settings)
 
-    print("\nYou are authenticated with Dropbox.  Please run 'python [or python3] dbx.py' again!")
+    print("\nYou are authenticated with Dropbox.")
 except Exception as e:
     settings["retrieved_token"] = False
     InteractJSON.writeToFile(settings)
