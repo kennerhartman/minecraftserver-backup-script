@@ -80,6 +80,7 @@ Built-in Python Libraries:
 - ```subprocess```: used to run the ```dbx-auth.py``` script if ```dbx.py``` is running
 - ```webbrowser```: used to open URLs in your browser
 - ```time```: suspend script execution
+- ```re```: string comparisons
 
 Installed Modules:
 

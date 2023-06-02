@@ -3,8 +3,6 @@
 # Licensed under the MIT license. See LICENSE.md file in the project root for details.
 #
 
-# TODO no imports needed for this file?
-
 # my own module that interacts with the Dropbox API
 from dbx_classes import DropboxApp
 
