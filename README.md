@@ -57,6 +57,10 @@ If you are wanting to copy your world files,
 
 This script works for the following operating system(s):
 
+*Note: Python scripts in ```dropbox``` will not run because of a host of issues.  They will be resolved after I implement the last couple of main features for MacOS. 
+
+**Note: I do not have access to a Linux system to test out these scripts.  Do not expect them to work :)
+
 <span>
     <img src="https://upload.wikimedia.org/wikipedia/commons/b/b6/Cropped-Windows10-icon.png" width=75px>
 </span>
@@ -66,6 +70,8 @@ This script works for the following operating system(s):
 <span>
     <img src="https://upload.wikimedia.org/wikipedia/commons/f/f1/Icons8_flat_linux.svg" height=85px>
 </span>
+
+
 
 # API(s) and Modules Used 
 
@@ -85,7 +91,7 @@ Built-in Python Libraries:
 Installed Modules:
 
 - [```dropbox```](https://pypi.org/project/dropbox/): connect to and use the Dropbox API
-- [```decouple```](https://pypi.org/project/decouple/): open .env files and read environment varibales
+- [```python-decouple```](https://pypi.org/project/python-decouple/): open .env files and read environment varibales
 
 
 # License
