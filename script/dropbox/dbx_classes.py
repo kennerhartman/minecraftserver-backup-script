@@ -56,6 +56,125 @@ class InteractJSON:
 APP_KEY = config("APP_KEY")
 auth = InteractJSON.readFile()
 
+filesInRootCounter = 0
+filesUploadCounter = 0
+uploadCounter = 0
+
+class HelperFunc:
+    def switch(folderName, localFolder, i):
+        # authenticate with Dropbox
+        global APP_KEY 
+        global auth
+
+        try:
+            dbx = dropbox.Dropbox(
+                app_key=APP_KEY,
+                oauth2_refresh_token=auth['refresh_token']
+            )
+        except:
+            print("DropboxApp.createFile(): There was an error.  Make sure you are authenticated with Dropbox.")
+
+        # main part of the function
+
+        # declare all needed variables
+        global filesUploadCounter
+        global uploadCounter
+        rootOfBackup = os.path.abspath("../../" + localFolder)
+        filesInRoot = []
+        
+        for filename in os.listdir(rootOfBackup + folderName):
+            f = os.path.join(rootOfBackup + folderName, filename)
+
+            if os.path.isfile(f):
+                filesInRoot.append(f)
+        
+        for i in filesInRoot:
+            dbxFile = (re.split("/", " ".join([i])))
+
+            with open(" ".join([i]), 'rb') as f:
+                dbx.files_upload(f.read(), "/" + "world-backup" + folderName + "/" + dbxFile[-1])
+                print("Uploading: " + dbxFile[-1])
+                filesUploadCounter += 1
+                uploadCounter += 1
+
+        return filesUploadCounter
+
+    def uploadSubDirFiles(localFolder):
+        rootOfBackup = os.path.abspath("../../" + localFolder)
+        dirsInRoot = []
+
+        for dirs in os.listdir(rootOfBackup):
+            f = os.path.join(rootOfBackup, dirs)
+            
+            if os.path.isdir(f):
+                dirsInRoot.append(f)
+
+        lengthOfList = len(dirsInRoot)
+        subFiles = []
+
+        for i in range(lengthOfList):
+            subFiles.append(dirsInRoot[i].split('/', lengthOfList))
+
+        listOfFolders = []
+
+        for x in range(len(subFiles)):
+            lenOfSubfiles = len(subFiles)
+            # list.append(str(f[i][lenF - 1]) + "/" + str(f[i][lenF]))
+            listOfFolders.append("/" + str(subFiles[x][lenOfSubfiles]))
+
+        listOfFolders.sort()
+
+        global filesUploadCounter
+
+        for i in range(len(listOfFolders)):
+            folderName = listOfFolders[i]
+            
+            match i:
+                case 0:
+                    print("\n" + listOfFolders[i] + " folder: \n")
+                    HelperFunc.switch(folderName, localFolder, i)
+                    print("\nFinished uploading files in " + folderName + " directory.  Uploaded " + str(filesUploadCounter) + " file(s).")
+                    filesUploadCounter = 0
+                case 1:
+                    print("\n" + listOfFolders[i] + " folder: \n")
+                    HelperFunc.switch(folderName, localFolder, i)
+                    print("\nFinished uploading files in " + folderName + " directory.  Uploaded " + str(filesUploadCounter) + " file(s).")
+                    filesUploadCounter = 0
+                case 1:
+                    print("\n" + listOfFolders[i] + " folder: \n")
+                    HelperFunc.switch(folderName, localFolder, i)
+                    print("\nFinished uploading files in " + folderName + " directory.  Uploaded " + str(filesUploadCounter) + " file(s).")
+                    filesUploadCounter = 0
+                case 2:
+                    if listOfFolders[i] == "/datapacks":
+                        print("\n" + listOfFolders[i] + " folder: \n")
+                        print("Sorry, but this script will not upload your datapacks folder due to the complex nature of creating and uploading files to Dropbox.  Sorry.")
+                case 3:
+                    print("\n" + listOfFolders[i] + " folder: \n")
+                    HelperFunc.switch(folderName, localFolder, i)
+                    print("\nFinished uploading files in " + folderName + " directory.  Uploaded " + str(filesUploadCounter) + " file(s).")
+                    filesUploadCounter = 0
+                case 4:
+                    print("\n" + listOfFolders[i] + " folder: \n")
+                    HelperFunc.switch(folderName, localFolder, i)
+                    print("\nFinished uploading files in " + folderName + " directory.  Uploaded " + str(filesUploadCounter) + " file(s).")
+                    filesUploadCounter = 0
+                case 5:
+                    print("\n" + listOfFolders[i] + " folder: \n")
+                    HelperFunc.switch(folderName, localFolder, i)
+                    print("\nFinished uploading files in " + folderName + " directory.  Uploaded " + str(filesUploadCounter) + " file(s).")
+                    filesUploadCounter = 0
+                case 6:
+                    print("\n" + listOfFolders[i] + " folder: \n")
+                    HelperFunc.switch(folderName, localFolder, i)
+                    print("\nFinished uploading files in " + folderName + " directory.  Uploaded " + str(filesUploadCounter) + " file(s).")
+                    filesUploadCounter = 0
+                case 7:
+                    print("\n" + listOfFolders[i] + " folder: \n")
+                    HelperFunc.switch(folderName, localFolder, i)
+                    print("\nFinished uploading files in " + folderName + " directory.  Uploaded " + str(filesUploadCounter) + " file(s).")
+                    filesUploadCounter = 0
+
 class DropboxApp:
     def dbxAuthenticate():
         """
@@ -79,7 +198,15 @@ class DropboxApp:
         # to retrieve access and refresh tokens, as well as generating an access code 
         # and storing them in 'dbx-credentials.json'
         if (settings['retrieved_token'] == False):
-            subprocess.call(['python3', 'dbx-auth.py'])
+            # subprocess.call(['python3', 'dbx-auth.py'])
+            subprocess.call(['python', 'dbx-auth.py'])
+            
+            # why is this exit(0) function declared here?  when delcaring DropboxApp.dbxAuthenticate and then declaring 
+            # DropboxApp.checkFolder in 'dbx.py', the script will, for some reason, not recognize there is a
+            # folder named 'world-backup' and will throw an exception that the folder does not exsist 
+            # (EVEN THOUGH IT DOES!). I do not find terminating the script entirely to be a big deal since
+            # you really only need to authenticate with Dropbox once.
+            exit(0)
         else:
             print("You are already authenticated with the Dropbox API.  If you want to refresh any token, run 'dbx-auth.py'.\n")
 
@@ -123,47 +250,7 @@ class DropboxApp:
                 print("DropboxApp.createFolder: " + str(folderName) + " has been successfully created!\n")
         except:
             pass
-        
-    def checkForFolder(folderName):
-        """
-        folderName: this will tell Dropbox what folder to be looking for.  For example, pass in "world-backup" and 
-        the function will call the Dropbox API to check the users Dropbox for that folder name.  Returns a boolean.
-
-        If you want to pass in an integer, put it in between double quotes (e.g. "1").
-        If an integer or boolean is passed as a parameter, DropboxApp.createFoler will raise a TypeError 
-        and terminate the execution of the function.
-        """
-
-        # prevent from passing in a boolean as a parameter
-        if(type(folderName) == bool or type(folderName) == int):
-            raise TypeError("Ensure you pass in a string, not an integer or boolean.")
-
-        # authenticate with Dropbox
-        global APP_KEY 
-        global auth
-
-        try:
-            dbx = dropbox.Dropbox(
-                app_key=APP_KEY,
-                oauth2_refresh_token=auth['refresh_token']
-            )
-        except:
-            settings = InteractJSON.readFile()
-            if settings["retrieved_token"] == False:
-                print("DropboxApp.createFolder(): There was an error.  Make sure you are authenticated with Dropbox.")
-
-        # check for folder
-        try:
-            dbx.files_list_folder("/" + folderName)
-
-            print("DropboxApp.checkForFolder: A folder named '" + folderName + "' was found in your Dropbox.")
-
-            return True
-        except:
-            print("DropboxApp.checkForFolder: A folder named '" + folderName + "' was not found in your Dropbox...")
-
-            return False
-
+    
     def uploadFolder(localFolder, dropboxFolder):
         """
         localFolder: get the name of the local folder to upload to Dropbox.  
@@ -211,13 +298,18 @@ class DropboxApp:
 
         # remove .DS_STORE
 
-        indexOfDS_Store = filesInRoot.index(rootOfBackup + "/.DS_Store")
-        filesInRoot.pop(indexOfDS_Store)
+        try:
+            indexOfDS_Store = filesInRoot.index(rootOfBackup + "/.DS_Store")
+            filesInRoot.pop(indexOfDS_Store)
+        except:
+            # unless imported, Windows and Linux do not have .DS_Store directories.  
+            # we just need to pass this except because there is nothing to say
+            pass
 
         # UPLOAD ROOT DIR FILES
 
-        filesInRootCounter = 0
-        uploadCounter = 0
+        global filesInRootCounter
+        global uploadCounter
 
         for i in filesInRoot:
             dbxFile = (re.split("/", " ".join([i])))
@@ -246,19 +338,58 @@ class DropboxApp:
         for i in dirsInRoot:
             dbxDir = (re.split("/", " ".join([i])))
             DropboxApp.createFolder(dropboxFolder + "/" + dbxDir[-1], False)
-            print("Uploading: '" + dbxDir[-1] + "' directory")
+            print("Creating: '" + dbxDir[-1] + "' directory")
 
             dirsInRootCounter += 1
             uploadCounter += 1
 
         print("\nFinished creating folders in root directory.  Uploaded " + str(dirsInRootCounter) + " folder(s).\n")
         
-        # TODO UPLOAD ALL FILES FROM SUBFOLDERS OF ROOT DIR TO DROPBOX
+        # it is a real pain to upload subdirectories, which is why I have two entire functions dedicated to doing it
+        # UPLOAD ALL FILES FROM SUBFOLDERS OF ROOT DIR IN DROPBOX
         
-        # print("Starting to upload the folders files...")
+        HelperFunc.uploadSubDirFiles(localFolder)
+
         print("\n\nUploaded a total of " + str(uploadCounter) + " file(s) and/or folder(s) to Dropbox\n")
         
-        # because the upload function is incompelte, I will simply raise an error
-        raise UserWarning("DropboxApp.uploadFolder: function incomplete; still need to upload files to subdirectories!")
-        
         # end of function
+
+    def checkForFolder(folderName):
+        """
+        folderName: this will tell Dropbox what folder to be looking for.  For example, pass in "world-backup" and 
+        the function will call the Dropbox API to check the users Dropbox for that folder name.  Returns a boolean.
+
+        If you want to pass in an integer, put it in between double quotes (e.g. "1").
+        If an integer or boolean is passed as a parameter, DropboxApp.createFoler will raise a TypeError 
+        and terminate the execution of the function.
+        """
+
+        # prevent from passing in a boolean as a parameter
+        if(type(folderName) == bool or type(folderName) == int):
+            raise TypeError("Ensure you pass in a string, not an integer or boolean.")
+
+        # authenticate with Dropbox
+        global APP_KEY 
+        global auth
+
+        try:
+            dbx = dropbox.Dropbox(
+                app_key=APP_KEY,
+                oauth2_refresh_token=auth['refresh_token']
+            )
+        except:
+            settings = InteractJSON.readFile()
+            if settings["retrieved_token"] == False:
+                print("DropboxApp.createFolder(): There was an error.  Make sure you are authenticated with Dropbox.")
+
+        # check for folder
+        try:
+            dbx.files_list_folder("/" + folderName)
+
+            print("DropboxApp.checkForFolder: A folder named '" + folderName + "' was found in your Dropbox.")
+
+            return True
+        except:
+            print("DropboxApp.checkForFolder: A folder named '" + folderName + "' was not found in your Dropbox...")
+
+            return False    

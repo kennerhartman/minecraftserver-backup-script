@@ -64,6 +64,9 @@ try:
     InteractJSON.writeToFile(settings)
 
     print("\nYou are authenticated with Dropbox.")
+
+    print("\nPlease run 'python dbx.py' to backup your folder!")
+    
 except Exception as e:
     settings["retrieved_token"] = False
     InteractJSON.writeToFile(settings)

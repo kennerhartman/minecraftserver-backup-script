@@ -35,8 +35,7 @@ If you are wanting to copy your world files,
 
 - Currently, this script cannot upload your files to Dropbox.  However, you can authenticate with the Dropbox API (see [Dropbox](#dropbox)).
 
-    - Note: there is ***some*** functionality for uploading files to Dropbox.  However, there is a problem of uploading files in subdirectories, of the root directory, to Dropbox.  This current commit only resolves half of that problem.
-    - Note: the next commit to this GitHub repository will allow you to upload your files to Dropbox with full functionality.
+    - Note: there is ***full*** functionality for uploading files to Dropbox.  However, this script ***will not*** upload your /datapacks folder (sorry!).  ***Please also note, there are a full host of bugs present for people running this script on Windows!  This is what I am working on right now to fix!  This script works just fine on MacOS.*** 
 
 # Dropbox
 
@@ -49,7 +48,7 @@ If you are wanting to copy your world files,
 - Ensure you have the following Python Modules installed for Dropbox to work:
 
     - pip install ```dropbox```
-    - pip install ```decouple```
+    - pip install ```python-decouple```
 
 - In the ```script``` directory, you will have a directory named ```dropbox```.  Within this directory, you should have two Python script files: ```dbx.py``` and ```dbx-auth.py```.  You do not need to run ```dbx-auth.py```.  If you run ```dbx.py```, you will be prompted to authenticate with the Dropbox API.  If you want to refresh your tokens, then run ```dbx-auth.py```.
 
@@ -83,10 +82,11 @@ Built-in Python Libraries:
 
 - ```shutil```: used to copy and remove specified directories
 - ```os```: used to find a specified directory
-- ```subprocess```: used to run the ```dbx-auth.py``` script if ```dbx.py``` is running
+- ```subprocess```: used to run the ```dbx-auth.py``` script if ```dbx.py``` is ran
 - ```webbrowser```: used to open URLs in your browser
 - ```time```: suspend script execution
 - ```re```: string comparisons
+- ```json```: read and write to JSON files
 
 Installed Modules:
 
