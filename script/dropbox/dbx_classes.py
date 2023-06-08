@@ -53,127 +53,10 @@ class InteractJSON:
             json.dump(settings, f, indent = 4)
         f.close()
 
+# global variables for the following class and subclass
 APP_KEY = config("APP_KEY")
 auth = InteractJSON.readFile()
-
-filesInRootCounter = 0
-filesUploadCounter = 0
 uploadCounter = 0
-
-class HelperFunc:
-    def switch(folderName, localFolder, i):
-        # authenticate with Dropbox
-        global APP_KEY 
-        global auth
-
-        try:
-            dbx = dropbox.Dropbox(
-                app_key=APP_KEY,
-                oauth2_refresh_token=auth['refresh_token']
-            )
-        except:
-            print("DropboxApp.createFile(): There was an error.  Make sure you are authenticated with Dropbox.")
-
-        # main part of the function
-
-        # declare all needed variables
-        global filesUploadCounter
-        global uploadCounter
-        rootOfBackup = os.path.abspath("../../" + localFolder)
-        filesInRoot = []
-        
-        for filename in os.listdir(rootOfBackup + folderName):
-            f = os.path.join(rootOfBackup + folderName, filename)
-
-            if os.path.isfile(f):
-                filesInRoot.append(f)
-        
-        for i in filesInRoot:
-            dbxFile = (re.split("/", " ".join([i])))
-
-            with open(" ".join([i]), 'rb') as f:
-                dbx.files_upload(f.read(), "/" + "world-backup" + folderName + "/" + dbxFile[-1])
-                print("Uploading: " + dbxFile[-1])
-                filesUploadCounter += 1
-                uploadCounter += 1
-
-        return filesUploadCounter
-
-    def uploadSubDirFiles(localFolder):
-        rootOfBackup = os.path.abspath("../../" + localFolder)
-        dirsInRoot = []
-
-        for dirs in os.listdir(rootOfBackup):
-            f = os.path.join(rootOfBackup, dirs)
-            
-            if os.path.isdir(f):
-                dirsInRoot.append(f)
-
-        lengthOfList = len(dirsInRoot)
-        subFiles = []
-
-        for i in range(lengthOfList):
-            subFiles.append(dirsInRoot[i].split('/', lengthOfList))
-
-        listOfFolders = []
-
-        for x in range(len(subFiles)):
-            lenOfSubfiles = len(subFiles)
-            # list.append(str(f[i][lenF - 1]) + "/" + str(f[i][lenF]))
-            listOfFolders.append("/" + str(subFiles[x][lenOfSubfiles]))
-
-        listOfFolders.sort()
-
-        global filesUploadCounter
-
-        for i in range(len(listOfFolders)):
-            folderName = listOfFolders[i]
-            
-            match i:
-                case 0:
-                    print("\n" + listOfFolders[i] + " folder: \n")
-                    HelperFunc.switch(folderName, localFolder, i)
-                    print("\nFinished uploading files in " + folderName + " directory.  Uploaded " + str(filesUploadCounter) + " file(s).")
-                    filesUploadCounter = 0
-                case 1:
-                    print("\n" + listOfFolders[i] + " folder: \n")
-                    HelperFunc.switch(folderName, localFolder, i)
-                    print("\nFinished uploading files in " + folderName + " directory.  Uploaded " + str(filesUploadCounter) + " file(s).")
-                    filesUploadCounter = 0
-                case 1:
-                    print("\n" + listOfFolders[i] + " folder: \n")
-                    HelperFunc.switch(folderName, localFolder, i)
-                    print("\nFinished uploading files in " + folderName + " directory.  Uploaded " + str(filesUploadCounter) + " file(s).")
-                    filesUploadCounter = 0
-                case 2:
-                    if listOfFolders[i] == "/datapacks":
-                        print("\n" + listOfFolders[i] + " folder: \n")
-                        print("Sorry, but this script will not upload your datapacks folder due to the complex nature of creating and uploading files to Dropbox.  Sorry.")
-                case 3:
-                    print("\n" + listOfFolders[i] + " folder: \n")
-                    HelperFunc.switch(folderName, localFolder, i)
-                    print("\nFinished uploading files in " + folderName + " directory.  Uploaded " + str(filesUploadCounter) + " file(s).")
-                    filesUploadCounter = 0
-                case 4:
-                    print("\n" + listOfFolders[i] + " folder: \n")
-                    HelperFunc.switch(folderName, localFolder, i)
-                    print("\nFinished uploading files in " + folderName + " directory.  Uploaded " + str(filesUploadCounter) + " file(s).")
-                    filesUploadCounter = 0
-                case 5:
-                    print("\n" + listOfFolders[i] + " folder: \n")
-                    HelperFunc.switch(folderName, localFolder, i)
-                    print("\nFinished uploading files in " + folderName + " directory.  Uploaded " + str(filesUploadCounter) + " file(s).")
-                    filesUploadCounter = 0
-                case 6:
-                    print("\n" + listOfFolders[i] + " folder: \n")
-                    HelperFunc.switch(folderName, localFolder, i)
-                    print("\nFinished uploading files in " + folderName + " directory.  Uploaded " + str(filesUploadCounter) + " file(s).")
-                    filesUploadCounter = 0
-                case 7:
-                    print("\n" + listOfFolders[i] + " folder: \n")
-                    HelperFunc.switch(folderName, localFolder, i)
-                    print("\nFinished uploading files in " + folderName + " directory.  Uploaded " + str(filesUploadCounter) + " file(s).")
-                    filesUploadCounter = 0
 
 class DropboxApp:
     def dbxAuthenticate():
@@ -250,109 +133,6 @@ class DropboxApp:
                 print("DropboxApp.createFolder: " + str(folderName) + " has been successfully created!\n")
         except:
             pass
-    
-    def uploadFolder(localFolder, dropboxFolder):
-        """
-        localFolder: get the name of the local folder to upload to Dropbox.  
-        Ensure that you do not include any characters (besdies letters) when passing in this parameter.
-
-        dropboxFolder: destination of the folder in Dropbox
-        
-        If you want to pass in an "integer", put it in between double quotes (e.g. "1") so it is a string.
-        If an integer or boolean is passed as a parameter, DropboxApp.uploadFolder will raise a TypeError 
-        and terminate the execution of the function. 
-        """
-
-        # prevent from passing in a boolean as a parameter
-        if(type(localFolder) == bool or type(localFolder) == int):
-            raise TypeError("Ensure you pass in a string, not an integer or boolean.")
-
-        # authenticate with Dropbox
-        global APP_KEY 
-        global auth
-
-        try:
-            dbx = dropbox.Dropbox(
-                app_key=APP_KEY,
-                oauth2_refresh_token=auth['refresh_token']
-            )
-        except:
-            print("DropboxApp.createFile(): There was an error.  Make sure you are authenticated with Dropbox.")
-
-        # main part of the function
-
-        # declare all needed variables
-        rootOfBackup = os.path.abspath("../../" + localFolder)
-
-        filesInRoot = []
-        dirsInRoot = []
-        
-        ### ======= ### ======= ###     
-
-        # ROOT DIR
-        for filename in os.listdir(rootOfBackup):
-            f = os.path.join(rootOfBackup, filename)
-
-            if os.path.isfile(f):
-                filesInRoot.append(f)
-
-        # remove .DS_STORE
-
-        try:
-            indexOfDS_Store = filesInRoot.index(rootOfBackup + "/.DS_Store")
-            filesInRoot.pop(indexOfDS_Store)
-        except:
-            # unless imported, Windows and Linux do not have .DS_Store directories.  
-            # we just need to pass this except because there is nothing to say
-            pass
-
-        # UPLOAD ROOT DIR FILES
-
-        global filesInRootCounter
-        global uploadCounter
-
-        for i in filesInRoot:
-            dbxFile = (re.split("/", " ".join([i])))
-
-            with open(" ".join([i]), 'rb') as f:
-                dbx.files_upload(f.read(), "/" + dropboxFolder + "/" + dbxFile[-1])
-                print("Uploading: " + dbxFile[-1])
-                
-                filesInRootCounter += 1
-                uploadCounter += 1
-            
-        print("\nFinished uploading files in root directory.  Uploaded " + str(filesInRootCounter) + " file(s).\n")
-        
-        ### ======= ### ======= ###
-
-        # SUBDIRS IN ROOT DIR
-
-        for dirs in os.listdir(rootOfBackup):
-            f = os.path.join(rootOfBackup, dirs)
-
-            if os.path.isdir(f):
-                dirsInRoot.append(f)
-
-        dirsInRootCounter = 0
-
-        for i in dirsInRoot:
-            dbxDir = (re.split("/", " ".join([i])))
-            DropboxApp.createFolder(dropboxFolder + "/" + dbxDir[-1], False)
-            print("Creating: '" + dbxDir[-1] + "' directory")
-
-            dirsInRootCounter += 1
-            uploadCounter += 1
-
-        print("\nFinished creating folders in root directory.  Uploaded " + str(dirsInRootCounter) + " folder(s).\n")
-        
-        # it is a real pain to upload subdirectories, which is why I have two entire functions dedicated to doing it
-        # UPLOAD ALL FILES FROM SUBFOLDERS OF ROOT DIR IN DROPBOX
-        
-        HelperFunc.uploadSubDirFiles(localFolder)
-
-        print("\n\nUploaded a total of " + str(uploadCounter) + " file(s) and/or folder(s) to Dropbox\n")
-        
-        # end of function
 
     def checkForFolder(folderName):
         """
@@ -393,3 +173,172 @@ class DropboxApp:
             print("DropboxApp.checkForFolder: A folder named '" + folderName + "' was not found in your Dropbox...")
 
             return False    
+
+    # this subclass will deal with uploading the files to Dropbox
+
+    # DropboxApp.Upload.getDirectories() should only be called by other functions in this subclass,
+    # and not be referenced in any other file
+
+    class Upload:
+        def getDirectories(folderPath):
+            """
+            folderPath: the target folder on the user's local machine to upload to Dropbox
+
+            This function should not be called outside of 'dbx_classes.py' as it serves no purpose
+            other than to return the root directory, root files, and sub directories in the root directory 
+            of the folderPath.
+            """
+            rootDir = []
+            rootFiles = []
+            subDir = []
+
+            rootOfBackup = os.path.abspath("../../" + folderPath)
+
+            for dir in os.listdir(rootOfBackup):
+                fDirs = os.path.join(rootOfBackup, dir)
+
+                if os.path.isdir(fDirs):
+                    rootDir.append(fDirs)
+
+            for filename in os.listdir(rootOfBackup):
+                files = os.path.join(rootOfBackup, filename)
+
+                if os.path.isfile(files):
+                    rootFiles.append(files)
+
+            for i in range(len(rootDir)):
+                for dir in os.listdir(os.path.join(rootOfBackup, rootDir[i])):
+                    fDirs = os.path.join(rootDir[i], dir)
+
+                    if os.path.isdir(fDirs):
+                        subDir.append(fDirs)
+
+            return rootDir, rootFiles, subDir
+
+        def overwriteFolder(folderPath):
+            """
+            folderPath: the target Dropbox folder to "overwrite" (delete)
+            """
+
+            # authenticate with Dropbox
+            global APP_KEY 
+            global auth
+
+            try:
+                dbx = dropbox.Dropbox(
+                    app_key=APP_KEY,
+                    oauth2_refresh_token=auth['refresh_token']
+                )
+            except:
+                settings = InteractJSON.readFile()
+                if (settings["retrieved_token"] == False):
+                    print("DropboxApp.createFolder(): There was an error.  Make sure you are authenticated with Dropbox.")
+            
+            try:
+                print("Overwriting \"" + folderPath + "\" folder...\n")
+                dbx.files_delete_v2("/" + str(folderPath))
+            except:
+                pass
+        
+        def uploadFiles(folderPath):
+            """
+            folderPath: the target Dropbox folder to upload files to
+
+            DropboxApp.Upload.uploadFiles() depends on DropboxApp.Upload.getDirectories().  The purpose of 
+            this function is to upload *most* files and folders found in the 'world-backup' folder.  The only
+            folder that will NOT be uploaded to Dropbox is 'datapacks'.
+
+            There are three sections to this function: uploading to root directory; uploading directories found in the 
+            root directory and all of its files; uploading any sub-directories found in any directories and all of its files
+            """
+            # authenticate with Dropbox
+            global APP_KEY 
+            global auth
+            global uploadCounter
+
+            try:
+                dbx = dropbox.Dropbox(
+                    app_key=APP_KEY,
+                    oauth2_refresh_token=auth['refresh_token']
+                )
+            except:
+                settings = InteractJSON.readFile()
+                if (settings["retrieved_token"] == False):
+                    print("DropboxApp.createFolder(): There was an error.  Make sure you are authenticated with Dropbox.")
+            
+            rootDirs, rootFiles, subDirs = DropboxApp.Upload.getDirectories(folderPath)
+
+            # * === Upload Files in Root Directory === * #
+
+            print("Beginning to upload files to Dropbox... \n")
+
+            rootFileList = []
+            for i in range(len(rootFiles)):
+                rootFileList.append(rootFiles[i].split("/"))
+
+            fileAndPath = []
+            for i in range(len(rootFileList)):
+                fileAndPath.append("/".join([rootFileList[i][-2], rootFileList[i][-1]]))
+
+            root = os.path.abspath("../../" + folderPath)
+            rootOfBackup = re.sub("world-backup", "", root)
+
+            for i in range(len(fileAndPath)):
+                with open(rootOfBackup + fileAndPath[i], 'rb') as f:
+                    print(fileAndPath[i])
+                    dbx.files_upload(f.read(), "/" + str(fileAndPath[i]))
+                    uploadCounter += 1
+
+            # * === Upload Files in Directories Found in Root (rootDirs) === * #
+
+            rootDirsList = []
+            for i in range(len(rootDirs)):
+                rootDirsList.append(rootDirs[i].split("/"))
+
+            rootDirsPath = []
+            for i in range(len(rootDirsList)):
+                if rootDirsList[i][-1] == "datapacks":
+                    print("\n!!! Notice  This script will not upload your datapacks folder due to the complex nature of uploading folders and "
+                    "files to Dropbox !!!\n")
+                else:
+                    rootDirsPath.append("/".join([rootDirsList[i][-2], rootDirsList[i][-1]]))
+
+            rootDirsFiles = []
+            for i in range(len(rootDirsPath)):
+                for filename in os.listdir(rootOfBackup + rootDirsPath[i]):
+                    f = os.path.join(rootOfBackup + str(rootDirsPath[i]) + "/" + filename)
+
+                    if os.path.isfile(f):
+                        rootDirsFiles.append("/".join([rootDirsPath[i], filename]))
+
+            for i in range(len(rootDirsFiles)):
+                with open(rootOfBackup + rootDirsFiles[i], 'rb') as f:
+                    print("Uploading: " + str(re.sub("world-backup", "", rootDirsFiles[i])))
+                    dbx.files_upload(f.read(), "/" + str(rootDirsFiles[i]))
+                    uploadCounter += 1
+            
+            # * === Upload Files in Subdirectories in Directories found in Root (subDirs) === * #
+
+            subDirsList = []
+            for i in range(len(subDirs)):
+                subDirsList.append(subDirs[i].split("/"))
+
+            subDirsPath = []
+            for i in range(len(subDirsList)):
+                subDirsPath.append("/".join([subDirsList[i][-3], subDirsList[i][-2], subDirsList[i][-1]]))
+
+            subDirsFiles = []
+            for i in range(len(subDirsPath)):
+                for filename in os.listdir(rootOfBackup + subDirsPath[i]):
+                    f = os.path.join(rootOfBackup + str(subDirsPath[i]) + "/" + filename)
+
+                    if os.path.isfile(f):
+                        subDirsFiles.append("/".join([subDirsPath[i], filename]))
+
+            for i in range(len(subDirsFiles)):
+                with open(rootOfBackup + subDirsFiles[i], 'rb') as f:
+                    print("Uploading: " + str(re.sub("world-backup", "", subDirsFiles[i])))
+                    dbx.files_upload(f.read(), "/" + str(subDirsFiles[i]))
+                    uploadCounter += 1
+
+            print("\n Uploaded " + str(uploadCounter) + " file(s).")

@@ -30,10 +30,10 @@ if (worldBackup == False):
 
     # upload the contents of 'world-backup' from the user's computer to dropbox in the "newly" created folder
     if askToUpload == "y" or askToUpload == "yes":
-        DropboxApp.uploadFolder("world-backup", "world-backup")
+        DropboxApp.Upload.uploadFiles("world-backup")
     else:
         print("If you want to backup your folder, run \"python [or python3] dbx.py\"!\n")
-elif(worldBackup == True):
+elif (worldBackup == True):
     # ask to upload the  'world-backup' folder
     askToUpload = input("\nDo you wish to backup your folder to Dropbox [y/n]: ")
     askToUpload.lower
@@ -41,7 +41,8 @@ elif(worldBackup == True):
 
     # upload the contents of 'world-backup' from the user's computer to dropbox in the "newly" created folder
     if askToUpload == "y" or askToUpload == "yes":
-        DropboxApp.uploadFolder("world-backup", "world-backup")
+        DropboxApp.Upload.overwriteFolder("world-backup")
+        DropboxApp.Upload.uploadFiles("world-backup")
     else:
         print("If you want to backup your folder, run \"python [or python3] dbx.py\"!\n")
 
