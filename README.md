@@ -56,7 +56,7 @@ If you are wanting to copy your world files,
 
 This script works for the following operating system(s):
 
-*Note: Python scripts in ```dropbox``` will not run because of a host of issues.  They will be resolved after I implement the last couple of main features for MacOS. 
+*Note: Python scripts in ```dropbox``` will not run properly on Windows because of issues that need to be resolved.  These issues are currently being worked on.
 
 **Note: I do not have access to a Linux system to test out these scripts.  Do not expect them to work :)
 
@@ -66,10 +66,6 @@ This script works for the following operating system(s):
 <span>
     <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Apple_logo_grey.svg/1280px-Apple_logo_grey.svg.png" width=60px>
 </span>
-<span>
-    <img src="https://upload.wikimedia.org/wikipedia/commons/f/f1/Icons8_flat_linux.svg" height=85px>
-</span>
-
 
 
 # API(s) and Modules Used 
