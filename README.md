@@ -156,9 +156,7 @@ See [#Installing Modules](#installing-modules-1) and then [#Uploading to Google 
 
 - Ensure you have the following Python Modules installed for Dropbox to work:
 
-    - pip install --upgrade ``` google-api-python-client ```
-    - pip install --upgrade ```google-auth-httplib2```
-    - pip install --upgrade ```google-auth-oauthlib```
+    - pip install --upgrade ```google-api-python-client google-auth-httplib2 google-auth-oauthlib```
 
 ## Uploading to Google Drive
 
