@@ -95,10 +95,6 @@ This script works for the following operating system(s):
 <span>
     <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Apple_logo_grey.svg/1280px-Apple_logo_grey.svg.png" width=60px>
 </span>
-<span>
-    <img src="https://upload.wikimedia.org/wikipedia/commons/f/f1/Icons8_flat_linux.svg" height=85px>
-</span>
-
 
 
 # API(s) and Modules Used 
