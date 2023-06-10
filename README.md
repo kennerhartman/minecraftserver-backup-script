@@ -13,11 +13,17 @@
 When ran, this script will go back one directory and check if there is a directory called ```world-backup```.  
 - If there is no such directory, the script will copy the contents of the ```world``` directory and paste them into a new directory called ```world-backup```.  
 
-- If there is such a directory, the script will "override" the ```world-backup``` directory with the content found in the ```world``` directory.
+- If there is such a directory, the script will "override" the ```world-backup``` directory with the content found in the ```world``` directory.  If for some reason your world is gone and you have a backup, all you need to do is rename ```world-backup``` to ```world``` and place it in the root directory of your Minecraft Server
 
 Note: this script *does not* copy every file of your Minecraft server, *only* your world files!
 
-It is currently an idea for this script to connect with your Google Drive account so you can store a copy of your backup somewhere else besides your computer.  If you want to use Dropbox, scroll down to [Dropbox](#dropbox) in this README file.
+This script can also upload your ```world-backup``` to the following cloud services:
+
+- Dropbox
+    - Drobox is fully implemented.  If you want to use Dropbox, scroll down to [#Dropbox](#dropbox) in this README file.
+
+- Google Drive
+    - I am currently working on uploading ```world-backup``` to Google Drive.
 
 # Insturctions on How to Use
 
@@ -33,32 +39,55 @@ If you are wanting to copy your world files,
 
 - Open up a terminal, cd to the ```script``` directory, and run ```python main.py```.
 
-- Currently, this script cannot upload your files to Dropbox.  However, you can authenticate with the Dropbox API (see [Dropbox](#dropbox)).
+If you are wanting to upload your world files,
 
-    - Note: there is ***full*** functionality for uploading files to Dropbox.  However, this script ***will not*** upload your /datapacks folder (sorry!).  ***Please also note, there are a full host of bugs present for people running this script on Windows!  This is what I am working on right now to fix!  This script works just fine on MacOS.*** 
+- Dropbox: see [#Dropbox](#dropbox)
+- Google Drive: feature in-progress
 
 # Dropbox
 
-- Currently, if you [register a Dropbox app](https://www.dropbox.com/developers/apps/create), you can connect to the Dropbox API (ensure you select "Full Dropbox Access" when registering your app).  Once you register your app, go to the [App Console](https://www.dropbox.com/developers/apps).  Once there, find your app, access it, and scroll down until you find "App key".  Copy that key.  In the ```dropbox``` folder, create a file named ```.env``` and add the following text: "APP_KEY=[paste the app key you copied here]".
+There are two requirements in order to use Dropbox with this script: registering a Dropbox app and installing the proper modules.
+
+## Registering a Dropbox App
+
+- In order to register a Dropbox App, go to [register a Dropbox app](https://www.dropbox.com/developers/apps/create) so you can connect to the Dropbox API (ensure you select "Full Dropbox Access" when registering your app).  
+
+    - After registering your app, go to the [App Console](https://www.dropbox.com/developers/apps), access your app, and click the tab, 'Permissions'.  Ensure you have the following checked:
+
+        - files.metadata.write
+        - files.content.write
+        - file_requests.write
+
+    - After doing that, go to the 'Settings' tab of your app.  Once there, scroll down until you find "App key".  Copy that key.  If you copied the script directory to the root of your Minecraft server, you should see a subdirectory named ```dropbox```in ```script```.  In the ```dropbox``` folder, create a file named ```.env``` and add the following text: "APP_KEY=[paste the app key you copied here]".
 
 <div align="center">
     <img src="images/env-variables.png" width="500px">
 </div>
+
+## Installing Modules
 
 - Ensure you have the following Python Modules installed for Dropbox to work:
 
     - pip install ```dropbox```
     - pip install ```python-decouple```
 
-- In the ```script``` directory, you will have a directory named ```dropbox```.  Within this directory, you should have two Python script files: ```dbx.py``` and ```dbx-auth.py```.  You do not need to run ```dbx-auth.py```.  If you run ```dbx.py```, you will be prompted to authenticate with the Dropbox API.  If you want to refresh your tokens, then run ```dbx-auth.py```.
+## Uploading to Dropbox
+
+There is ***full*** functionality for uploading folders and files to Dropbox.  However, this script ***will not*** upload your /datapacks folder (sorry!).
+
+In you copied the ```script``` directory to the root of your Minecraft server, you will have a subdirectory named ```dropbox``` in ```script```.  Within this directory, you should have three Python script files: ```dbx.py```, ```dbx_auth.py```, and ```dbx_classes.py```.  Additionally, you should have already added your ```.env``` file with the necessary variable(s).  **You do not need to run ```dbx_auth.py``` or ```dbx_classes.py```.**
+
+To upload your world files to Dropbox,
+
+- Open up a terminal, cd to the ```script/dropbox``` directory, and run ```python dbx.py```.  If you have followed the above directions, you will be asked to authenticate with the Dropbox API and will be given instructions (in the console) and be redirected to a link.
+
+- Then, run ```python dbx.py``` again and follow the directions.
 
 # Compatibility
 
 This script works for the following operating system(s):
 
-*Note: Python scripts in ```dropbox``` will not run because of a host of issues.  They will be resolved after I implement the last couple of main features for MacOS. 
-
-**Note: I do not have access to a Linux system to test out these scripts.  Do not expect them to work :)
+*Note: I do not have access to a Linux system to test out these scripts.  Do not expect them to work :)
 
 <span>
     <img src="https://upload.wikimedia.org/wikipedia/commons/b/b6/Cropped-Windows10-icon.png" width=75px>
@@ -82,7 +111,6 @@ Built-in Python Libraries:
 
 - ```shutil```: used to copy and remove specified directories
 - ```os```: used to find a specified directory
-- ```subprocess```: used to run the ```dbx-auth.py``` script if ```dbx.py``` is ran
 - ```webbrowser```: used to open URLs in your browser
 - ```time```: suspend script execution
 - ```re```: string comparisons

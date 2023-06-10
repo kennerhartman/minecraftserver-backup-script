@@ -7,8 +7,8 @@ import os
 import json
 import dropbox
 from decouple import config 
-import subprocess
 import re
+import platform
 
 class InteractJSON:
     # when called, if a 'dbx-credentials.json' file is not present, then one will be created, 
@@ -81,8 +81,11 @@ class DropboxApp:
         # to retrieve access and refresh tokens, as well as generating an access code 
         # and storing them in 'dbx-credentials.json'
         if (settings['retrieved_token'] == False):
-            # subprocess.call(['python3', 'dbx-auth.py'])
-            subprocess.call(['python', 'dbx-auth.py'])
+            from dbx_auth import authenticate
+
+            # instead of using subprocess.call() to run 'dbx_auth.py', directly call the 
+            # authenticate function in 'dbx_auth.py' to authenticate with Dropbox
+            authenticate()
             
             # why is this exit(0) function declared here?  when delcaring DropboxApp.dbxAuthenticate and then declaring 
             # DropboxApp.checkFolder in 'dbx.py', the script will, for some reason, not recognize there is a
@@ -274,7 +277,10 @@ class DropboxApp:
 
             rootFileList = []
             for i in range(len(rootFiles)):
-                rootFileList.append(rootFiles[i].split("/"))
+                if platform.system() == "Windows":
+                    rootFileList.append(rootFiles[i].split("\\"))
+                else:
+                    rootFileList.append(rootFiles[i].split("/"))
 
             fileAndPath = []
             for i in range(len(rootFileList)):
@@ -285,7 +291,7 @@ class DropboxApp:
 
             for i in range(len(fileAndPath)):
                 with open(rootOfBackup + fileAndPath[i], 'rb') as f:
-                    print(fileAndPath[i])
+                    print("Uploading: " + str(re.sub("world-backup", "", fileAndPath[i])))
                     dbx.files_upload(f.read(), "/" + str(fileAndPath[i]))
                     uploadCounter += 1
 
@@ -293,7 +299,10 @@ class DropboxApp:
 
             rootDirsList = []
             for i in range(len(rootDirs)):
-                rootDirsList.append(rootDirs[i].split("/"))
+                if platform.system() == "Windows":
+                    rootDirsList.append(rootDirs[i].split("\\"))
+                else:
+                    rootDirsList.append(rootDirs[i].split("/"))
 
             rootDirsPath = []
             for i in range(len(rootDirsList)):
@@ -321,7 +330,10 @@ class DropboxApp:
 
             subDirsList = []
             for i in range(len(subDirs)):
-                subDirsList.append(subDirs[i].split("/"))
+                if platform.system() == "Windows":
+                    subDirsList.append(subDirs[i].split("\\"))
+                else:
+                    subDirsList.append(subDirs[i].split("/"))
 
             subDirsPath = []
             for i in range(len(subDirsList)):
