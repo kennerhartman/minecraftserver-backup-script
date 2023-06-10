@@ -19,7 +19,7 @@ try:
     }
 
     folder = service.files().create(body=folder_metadata, fields="id").execute()
-    print(f'File ID: "{folder.get("id")}"')
+    print(f'File ID: {folder.get("id")}')
 
 except HttpError as error:
     print(f'An error occurred: {error}')

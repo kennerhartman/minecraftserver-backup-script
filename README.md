@@ -209,6 +209,10 @@ Built-in Python Libraries:
 Installed Modules:
 
 - [```dropbox```](https://pypi.org/project/dropbox/): connect to and use the Dropbox API
+- Google Drive:
+    - ```google-api-python-client ```
+    - ```google-auth-httplib2 ```
+    - ```google-auth-oauthlib```
 - [```python-decouple```](https://pypi.org/project/python-decouple/): open .env files and read environment varibales
 
 

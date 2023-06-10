@@ -35,6 +35,7 @@ def requestCreds():
     # I have moved this next else statement to not by under "if creds and creds and creds.refresh_token:"
     else: 
         flow = InstalledAppFlow.from_client_secrets_file(
+            # renamed 'credentials.json' to 'drive-credentials.json'
             'drive-credentials.json', SCOPES)
         creds = flow.run_local_server(port=0)
     # Save the credentials for the next run
