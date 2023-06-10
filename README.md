@@ -139,7 +139,7 @@ You should be on the following screen: "(2) Scopes"
 
 You should be on the following screen: "(3) Scopes"
 
-- To add your use your app, click "Add Users", enter your email, and click "Add"
+- To add use your app, click "Add Users", enter your email, and click "Add"
 - "Save and Continue"
 
 You will be on a screen that will summarize your app registration.  Once done, scroll down and click "Back to Dashboard".
