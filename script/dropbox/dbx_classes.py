@@ -307,8 +307,8 @@ class DropboxApp:
             rootDirsPath = []
             for i in range(len(rootDirsList)):
                 if rootDirsList[i][-1] == "datapacks":
-                    print("\n!!! Notice  This script will not upload your datapacks folder due to the complex nature of uploading folders and "
-                    "files to Dropbox !!!\n")
+                    print(f"\n\033[31m\033[01m!!! Notice: This script will not upload your datapacks folder due to the complex nature of uploading folders "
+                    "to Dropbox !!!\033[0m\n")
                 else:
                     rootDirsPath.append("/".join([rootDirsList[i][-2], rootDirsList[i][-1]]))
 

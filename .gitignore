@@ -8,6 +8,9 @@ world-backup
 .env
 dbx-credentials.json
 
+drive-credentials.json
+token.json
+
 # other misc files
 
 .DS_Store
