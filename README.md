@@ -120,7 +120,7 @@ You should be on the following screen: "(1) OAuth consent screen"
     - Enter the user support email
     - App logo (optional)
     - App domain (optional, I used "Authorized domains" instead of "App domain")
-    - Authorized domains; click "Add Domain" add type in "www.googleapis.com".  This will redirect you to Google's authentication screen
+    - Authorized domains; click "Add Domain" and type in "www.googleapis.com".  This will redirect you to Google's authentication page when running the Python scripts.
     - Enter your developer contact (email) information
     - Save and continue
 
