@@ -9,7 +9,7 @@
     </a>
 </span>
 <span>
-    <img src="https://img.shields.io/badge/project%20status-in%20active%20development-brightgreen"></img>
+    <img src="https://img.shields.io/badge/project%20status-idle-yellow"></img>
 </span>
 
 
